@@ -24,7 +24,7 @@ public class Car : MonoBehaviour
 
         Vector3 initialVelocity = new Vector3((float) -this.initialSpeed, 0, 0);
         this.rb.velocity = initialVelocity;
-
+        
         InvokeRepeating("logCarSpeed", 1,1);
     }
 
@@ -36,8 +36,13 @@ public class Car : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!finishedCourse && this.rb.position.x == (this.road.transform.position.x - (this.road.transform.localScale.x * 5))) {
+        if (!finishedCourse && this.rb.position.x <= (this.road.transform.position.x - (this.road.transform.localScale.x * 5))) {
             this.finishedCourse = true;
+            this.road.carsFinishedTrack++;
+
+            if (this.road.carsFinishedTrack == this.road.carCount) {
+                this.road.saveData();
+            }
         }
 
         int carCount = GameObject.FindGameObjectsWithTag("car").Length;

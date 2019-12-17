@@ -17,6 +17,9 @@ public class Road : MonoBehaviour
     [System.NonSerialized]
     public List<float> carSpeeds = new List<float>();
 
+    [System.NonSerialized]
+    public int carsFinishedTrack = 0;
+
     public GameObject carPrefab;
     public int lanes = 1;
     public int carCount = 10;
@@ -28,7 +31,8 @@ public class Road : MonoBehaviour
     private int currentCarCount = 0;
     
     void Start()
-    {        
+    {
+        Application.runInBackground = true;        
         setSpawnLocations();
         
         // !NOTE: Create a variable currentCarCount so we can change it without the unity options GUI
@@ -36,8 +40,6 @@ public class Road : MonoBehaviour
 
         // !NOTE: Spawn cars as a coroutine (a side-process so we can run the level in the meantime)
         StartCoroutine(spawnCars());
-
-        Invoke("saveData", 40);
     }
 
     /// <summary> This method spawns the car at a spawnpoint defined in the "setSpawnLocations()" function </summary>
@@ -60,7 +62,7 @@ public class Road : MonoBehaviour
     }
 
     /// <summary> Save the current run data to a .csv file </summary>
-    void saveData() {
+    public void saveData() {
         Debug.Log("Saving data");
 
         StringBuilder csv = new StringBuilder();
