@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Class <c>Road</c> handles level updates.
@@ -13,19 +15,20 @@ public class Road : MonoBehaviour
     public int std = 10;
 
     [System.NonSerialized]
-    public int throughput = 0;
+    public List<float> carSpeeds = new List<float>();
 
     public GameObject carPrefab;
     public int lanes = 1;
     public int carCount = 10;
     public int maxSpeed = 100;
+    public float roadDensity = 0.1F;
 
     private System.Random rnd = new System.Random();
     private List<Vector3> spawnLocations = new List<Vector3>();
     private int currentCarCount = 0;
     
     void Start()
-    {
+    {        
         setSpawnLocations();
         
         // !NOTE: Create a variable currentCarCount so we can change it without the unity options GUI
@@ -45,12 +48,12 @@ public class Road : MonoBehaviour
             int r = rnd.Next(this.spawnLocations.Count);
             Vector3 spawnLocation = this.spawnLocations[r];
 
-            float spawnDistance = .1F;
-            if (Physics.OverlapSphere(spawnLocation, spawnDistance).Length <= 1) {
+            if (Physics.OverlapSphere(spawnLocation, this.roadDensity).Length < 1) {
                 GameObject car = Instantiate(carPrefab, spawnLocation, Quaternion.identity);
                 car.GetComponent<Car>().lane = r;
             } else {
-                yield return new WaitForSeconds(1);
+                // Run once every frame
+                yield return new WaitForSeconds(.016F);
                 this.currentCarCount += 1;
             }
         }
@@ -62,10 +65,11 @@ public class Road : MonoBehaviour
 
         StringBuilder csv = new StringBuilder();
 
-        string newLine = string.Format("{0},{1}", maxSpeed.ToString(), throughput.ToString());
+        string newLine = string.Format("{0},{1}", maxSpeed.ToString(), this.carSpeeds.Average().ToString());
         csv.AppendLine(newLine);
 
-        File.AppendAllText(Directory.GetCurrentDirectory() + "./Assets/Data/data.csv", csv.ToString());
+        File.AppendAllText(Directory.GetCurrentDirectory() + "/Assets/Data/data.csv", csv.ToString());
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     /// <summary> Set the available spawn locations for the level </summary>
@@ -73,7 +77,7 @@ public class Road : MonoBehaviour
     {
         float groundLevel = 0.5F;
         float lanePadding = 6.7F;
-        float startOfLevel = 49F;
+        float startOfLevel = transform.position.x + (transform.localScale.x * 5);
 
         // Spawn locations for the cars
         Vector3 midLane = new Vector3(startOfLevel, groundLevel, 0);
