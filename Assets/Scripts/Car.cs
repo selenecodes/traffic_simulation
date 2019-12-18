@@ -79,7 +79,6 @@ public class Car : MonoBehaviour
 
             float angle = Vector3.Angle(thisCar, otherCar);
             
-            // if (!otherCarObject.finishedCourse) {
             if (thisCar.x > otherCar.x && this.lane == otherCarObject.lane) {
                 float distance = System.Math.Abs(otherCar.x - thisCar.x);
                 
@@ -89,7 +88,6 @@ public class Car : MonoBehaviour
                     minDistance = distance;
                 }
             }
-            // }
         }
         
         return minDistance;

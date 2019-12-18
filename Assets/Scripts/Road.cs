@@ -21,7 +21,6 @@ public class Road : MonoBehaviour
     public int carsFinishedTrack = 0;
 
     public GameObject carPrefab;
-    public int lanes = 1;
     public int carCount = 10;
     public int maxSpeed = 100;
     private float roadDensity = 30;
@@ -78,25 +77,10 @@ public class Road : MonoBehaviour
     void setSpawnLocations()
     {
         float groundLevel = 0.5F;
-        float lanePadding = 6.7F;
         float startOfLevel = transform.position.x + (transform.localScale.x * 5);
 
-        // Spawn locations for the cars
+        // Spawn location for the cars
         Vector3 midLane = new Vector3(startOfLevel, groundLevel, 0);
-        Vector3 rightLane = new Vector3(startOfLevel, groundLevel, lanePadding);
-        Vector3 leftLane = new Vector3(startOfLevel, groundLevel, -lanePadding);
-
         this.spawnLocations.Add(midLane);
-
-        if (this.lanes == 2)
-        {
-            this.spawnLocations.Add(leftLane);
-        }
-
-        if (this.lanes == 3)
-        {
-            this.spawnLocations.Add(leftLane);
-            this.spawnLocations.Add(rightLane);
-        }
     }
 }
