@@ -24,7 +24,7 @@ public class Road : MonoBehaviour
     public int lanes = 1;
     public int carCount = 10;
     public int maxSpeed = 100;
-    public float roadDensity = 60;
+    private float roadDensity = 30;
 
     private System.Random rnd = new System.Random();
     private List<Vector3> spawnLocations = new List<Vector3>();
@@ -70,7 +70,7 @@ public class Road : MonoBehaviour
         string newLine = string.Format("{0},{1}", maxSpeed.ToString(), this.carSpeeds.Average().ToString());
         csv.AppendLine(newLine);
 
-        File.AppendAllText(Directory.GetCurrentDirectory() + "/Assets/Data/data_20.csv", csv.ToString());
+        File.AppendAllText(Directory.GetCurrentDirectory() + "/Assets/Data/data_" + this.carCount + ".csv", csv.ToString());
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
