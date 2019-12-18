@@ -40,6 +40,9 @@ public class Car : MonoBehaviour
             this.finishedCourse = true;
             this.road.carsFinishedTrack++;
 
+            Vector3 initialVelocity = new Vector3((float)-this.initialSpeed, 0, 0);
+            this.rb.velocity = initialVelocity;
+
             if (this.road.carsFinishedTrack == this.road.carCount) {
                 this.road.saveData();
             }
@@ -56,6 +59,9 @@ public class Car : MonoBehaviour
                 Vector3 velo = this.rb.velocity;
 
                 this.rb.velocity = new Vector3(velo.x + brakingForce, 0, velo.z);
+            } else {
+                Vector3 initialVelocity = new Vector3((float)-this.initialSpeed, 0, 0);
+                this.rb.velocity = initialVelocity;
             }
         }
     }
@@ -73,17 +79,17 @@ public class Car : MonoBehaviour
 
             float angle = Vector3.Angle(thisCar, otherCar);
             
-            if (!otherCarObject.finishedCourse) {
-                if (thisCar.x > otherCar.x && this.lane == otherCarObject.lane) {
-                    float distance = System.Math.Abs(otherCar.x - thisCar.x);
-                    
-                    if (minDistance == -1F){
-                        minDistance = distance;
-                    } else if (distance < minDistance) {
-                        minDistance = distance;
-                    }
+            // if (!otherCarObject.finishedCourse) {
+            if (thisCar.x > otherCar.x && this.lane == otherCarObject.lane) {
+                float distance = System.Math.Abs(otherCar.x - thisCar.x);
+                
+                if (minDistance == -1F){
+                    minDistance = distance;
+                } else if (distance < minDistance) {
+                    minDistance = distance;
                 }
             }
+            // }
         }
         
         return minDistance;

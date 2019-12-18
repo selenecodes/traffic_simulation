@@ -24,7 +24,7 @@ public class Road : MonoBehaviour
     public int lanes = 1;
     public int carCount = 10;
     public int maxSpeed = 100;
-    public float roadDensity = 0.1F;
+    public float roadDensity = 60;
 
     private System.Random rnd = new System.Random();
     private List<Vector3> spawnLocations = new List<Vector3>();
@@ -50,12 +50,12 @@ public class Road : MonoBehaviour
             int r = rnd.Next(this.spawnLocations.Count);
             Vector3 spawnLocation = this.spawnLocations[r];
 
-            if (Physics.OverlapSphere(spawnLocation, this.roadDensity).Length < 1) {
+            if (Physics.OverlapSphere(spawnLocation, 20F).Length <= 1) {
                 GameObject car = Instantiate(carPrefab, spawnLocation, Quaternion.identity);
                 car.GetComponent<Car>().lane = r;
             } else {
                 // Run once every frame
-                yield return new WaitForSeconds(.016F);
+                yield return new WaitForSeconds(1/this.roadDensity);
                 this.currentCarCount += 1;
             }
         }
@@ -70,7 +70,7 @@ public class Road : MonoBehaviour
         string newLine = string.Format("{0},{1}", maxSpeed.ToString(), this.carSpeeds.Average().ToString());
         csv.AppendLine(newLine);
 
-        File.AppendAllText(Directory.GetCurrentDirectory() + "/Assets/Data/data.csv", csv.ToString());
+        File.AppendAllText(Directory.GetCurrentDirectory() + "/Assets/Data/data_20.csv", csv.ToString());
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
