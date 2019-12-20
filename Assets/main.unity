@@ -311,9 +311,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carPrefab: {fileID: 1811876807903679113, guid: 89a3db36f4898164a880f974d918f2d0,
     type: 3}
-  lanes: 3
-  carCount: 25
-  maxSpeed: 50
+  carCount: 10
+  maxSpeed: 130
 --- !u!1 &2039018196
 GameObject:
   m_ObjectHideFlags: 0

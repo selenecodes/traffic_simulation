@@ -28,6 +28,8 @@ public class Car : MonoBehaviour
         InvokeRepeating("logCarSpeed", 1,1);
     }
 
+    /// <summary>Log the car speed by adding it to an array on <c>Road</c></summary>
+
     void logCarSpeed() {
         if (!this.finishedCourse) {
             this.road.carSpeeds.Add(this.rb.velocity.magnitude);
@@ -99,9 +101,9 @@ public class Car : MonoBehaviour
 
     double CalculateInitialSpeed(int max)
     {
-        int std = this.road.std; // 10km/h was randomly chosen because we do not know how big the differences in speed are between drivers exactly
-        int averageSpeed = max - std; // On average not everyone will be exactly at the speed limit. People prefer to stay a little below it
-        int minSpeed = max - (std * 2); // Australia does not allow one to drive more than 20km/h below the speed limit
+        int std = this.road.std;
+        int averageSpeed = max - std;
+        int minSpeed = max - (std * 2);
 
         System.Random rand = new System.Random();
 
@@ -132,7 +134,6 @@ public class Car : MonoBehaviour
             Debug.DrawLine(this.rb.position, new Vector3(this.rb.position.x,10,this.rb.position.z), Color.red);
             return this.rb.velocity.sqrMagnitude / 250 *.8F;
         } else if (distance > 40 &&  this.rb.velocity.x > -this.road.maxSpeed) {
-            // this.rb.AddForce(new Vector3(-5,0,0));
             return -5F;
         }
 

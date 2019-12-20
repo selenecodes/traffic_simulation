@@ -60,7 +60,7 @@ public class Road : MonoBehaviour
         }
     }
 
-    /// <summary> Save the current run data to a .csv file </summary>
+    /// <summary> Append the current run data to a .csv file </summary>
     public void saveData() {
         Debug.Log("Saving data");
 
